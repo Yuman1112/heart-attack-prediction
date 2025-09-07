@@ -11,7 +11,7 @@ st.title("Heart Attack Risk Prediction")
 
 # Collect user inputs
 age = st.number_input("Age (15-100)", min_value=15, max_value=100, step=1)
-sex = st.selectbox("Sex (0=female, 1=male)", [0, 1], format_func=lambda x: "Male" if x == 1 else "Female")
+sex = st.selectbox("Sex", [0, 1], format_func=lambda x: "Male" if x == 1 else "Female")
 cp = st.selectbox("Chest Pain Type (0-3)", [0, 1, 2, 3])
 trestbps = st.number_input("Resting Blood Pressure (80-200) ", min_value=80, max_value=200, step=1)
 chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=600, step=1)
@@ -45,3 +45,4 @@ if st.button("Predict Heart Attack Risk"):
         st.error("⚠ High chance of heart attack!")
     else:
         st.success("✅ Low chance of heart attack.")
+
