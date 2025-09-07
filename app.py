@@ -6,7 +6,7 @@ import pandas as pd
 model = load('heart_attack_model.joblib')
 scaler = load('scaler.joblib')
 
-st.title("❤️ Heart Attack Risk Prediction")
+st.title("Heart Attack Risk Prediction")
 
 # -------------------------
 # Collect inputs
