@@ -1,8 +1,9 @@
 import streamlit as st
 from joblib import load
 import pandas as pd
+import numpy as np
 
-# Load model and scaler
+# Load model and scaler (make sure these are the same as Colab)
 model = load('heart_attack_model.joblib')
 scaler = load('scaler.joblib')
 
@@ -15,8 +16,8 @@ st.markdown("Fill in your details below to assess your risk of heart attack.")
 # Section 1: Personal Info
 # -------------------------
 st.markdown("### 👤 Personal Information")
-age = st.number_input("Age (15-100)", min_value=15, max_value=100, step=1, help="Enter your age in years")
-sex = st.selectbox("Sex", [0, 1], format_func=lambda x: "Male" if x == 1 else "Female", help="Select your biological sex")
+age = st.number_input("Age (15-100)", min_value=15, max_value=100, step=1)
+sex = st.selectbox("Sex", [0, 1], format_func=lambda x: "Male" if x==1 else "Female")
 
 st.divider()
 
@@ -24,11 +25,11 @@ st.divider()
 # Section 2: Vitals / Heart Symptoms
 # -------------------------
 st.markdown("### 💓 Vitals / Heart Symptoms")
-cp = st.selectbox("Chest Pain Type (0-3)", [0, 1, 2, 3], help="Type of chest pain")
-trestbps = st.number_input("Resting Blood Pressure (80-200)", min_value=80, max_value=200, step=1, help="Blood pressure at rest (mm Hg)")
-chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=600, step=1, help="Serum cholesterol in mg/dl")
-fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl", [0,1], format_func=lambda x: "No" if x==0 else "Yes", help="Fasting blood sugar greater than 120 mg/dl?")
-restecg = st.selectbox("Resting ECG (0-2)", [0,1,2], help="Resting electrocardiographic results")
+cp = st.selectbox("Chest Pain Type (0-3)", [0,1,2,3])
+trestbps = st.number_input("Resting Blood Pressure (80-200)", min_value=80, max_value=200, step=1)
+chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=600, step=1)
+fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl", [0,1], format_func=lambda x: "No" if x==0 else "Yes")
+restecg = st.selectbox("Resting ECG (0-2)", [0,1,2])
 
 st.divider()
 
@@ -36,9 +37,9 @@ st.divider()
 # Section 3: Exercise Test
 # -------------------------
 st.markdown("### 🏃 Exercise Test")
-thalach = st.number_input("Max Heart Rate (60-220)", min_value=60, max_value=220, step=1, help="Highest heart rate achieved during exercise")
-exang = st.selectbox("Exercise Induced Angina", [0,1], format_func=lambda x: "No" if x==0 else "Yes", help="Did chest pain occur with exercise?")
-oldpeak = st.number_input("ST Depression (0.0-10.0)", min_value=0.0, max_value=10.0, step=0.1, help="ST depression induced by exercise relative to rest")
+thalach = st.number_input("Max Heart Rate (60-220)", min_value=60, max_value=220, step=1)
+exang = st.selectbox("Exercise Induced Angina", [0,1], format_func=lambda x: "No" if x==0 else "Yes")
+oldpeak = st.number_input("ST Depression (0.0-10.0)", min_value=0.0, max_value=10.0, step=0.1)
 
 st.divider()
 
@@ -46,31 +47,38 @@ st.divider()
 # Section 4: Advanced Inputs
 # -------------------------
 st.markdown("### ⚙️ Advanced Inputs")
-slope = st.selectbox("Slope of peak exercise ST (0-2)", [0, 1, 2], help="Slope of the peak exercise ST segment")
-ca = st.selectbox("Number of Major Vessels (0-3)", [0, 1, 2, 3], help="Number of major vessels colored by fluoroscopy")
-thal = st.selectbox("Thalassemia", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x], help="Thalassemia type")
+slope = st.selectbox("Slope of peak exercise ST (0-2)", [0,1,2])
+ca = st.selectbox("Number of Major Vessels (0-3)", [0,1,2,3])
+thal = st.selectbox("Thalassemia", [0,1,2], format_func=lambda x: ["Normal","Fixed defect","Reversible defect"][x])
 
 st.divider()
 
 # -------------------------
-# Cast inputs explicitly
+# Cast inputs explicitly to float64
 # -------------------------
-user_input = [
-    int(age), int(sex), int(cp), int(trestbps), int(chol), int(fbs),
-    int(restecg), int(thalach), int(exang), float(oldpeak),
-    int(slope), int(ca), int(thal)
-]
+user_input = np.array([
+    float(age), float(sex), float(cp), float(trestbps), float(chol), float(fbs),
+    float(restecg), float(thalach), float(exang), float(oldpeak),
+    float(slope), float(ca), float(thal)
+], dtype=np.float64)
 
 # -------------------------
-# Build DataFrame
+# Build DataFrame with exact feature names/order
 # -------------------------
-input_df = pd.DataFrame([user_input], columns=[
+columns = [
     'age','sex','cp','trestbps','chol','fbs','restecg',
     'thalach','exang','oldpeak','slope','ca','thal'
-])
+]
+input_df = pd.DataFrame([user_input], columns=columns)
 
 # Scale input
 input_scaled = scaler.transform(input_df)
+
+# -------------------------
+# DEBUG: check scaled input
+# -------------------------
+st.write("Scaled Input (for verification):")
+st.write(input_scaled)
 
 # -------------------------
 # Predict
