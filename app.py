@@ -17,7 +17,7 @@ chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=6
 fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl", [0, 1])
 restecg = st.selectbox("Resting ECG (0-2)", [0, 1, 2])
 thalach = st.number_input("Max Heart Rate (60-220)", min_value=60, max_value=220, step=1)
-exang = st.selectbox("Exercise Induced Angina", [0, 1])
+exang = st.selectbox("Exercise Induced Angina (0=no, 1=yes)", [0, 1])
 oldpeak = st.number_input("ST Depression (0.0-10.0)", min_value=0.0, max_value=10.0, step=0.1)
 slope = st.selectbox("Slope of peak exercise ST (0-2)", [0, 1, 2])
 ca = st.selectbox("Number of Major Vessels (0-3)", [0, 1, 2, 3])
@@ -50,3 +50,4 @@ if st.button("Predict Heart Attack Risk"):
         st.error("⚠ High chance of heart attack! Please consult a doctor.")
     else:
         st.success("✅ Low chance of heart attack. Maintain a healthy lifestyle.")
+
