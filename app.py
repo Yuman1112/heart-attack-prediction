@@ -75,12 +75,6 @@ input_df = pd.DataFrame([user_input], columns=columns)
 input_scaled = scaler.transform(input_df)
 
 # -------------------------
-# DEBUG: check scaled input
-# -------------------------
-st.write("Scaled Input (for verification):")
-st.write(input_scaled)
-
-# -------------------------
 # Predict
 # -------------------------
 if st.button("Predict Heart Attack Risk"):
@@ -97,3 +91,4 @@ if st.button("Predict Heart Attack Risk"):
         st.error("⚠ High chance of heart attack! Please consult a doctor.")
     else:
         st.success("✅ Low chance of heart attack. Maintain a healthy lifestyle.")
+
