@@ -10,19 +10,19 @@ scaler = load('scaler.joblib')            # Load scaler as in Part 19
 st.title("Heart Attack Risk Prediction")
 
 # Collect user inputs
-age = st.number_input("Age", min_value=15, max_value=100, step=1)
-sex = st.selectbox("Sex", [0, 1], format_func=lambda x: "Male" if x == 1 else "Female")
-cp = st.selectbox("Chest Pain Type (cp)", [0, 1, 2, 3])
-trestbps = st.number_input("Resting Blood Pressure (trestbps)", min_value=80, max_value=200, step=1)
-chol = st.number_input("Cholesterol (chol)", min_value=100, max_value=600, step=1)
-fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl (fbs)", [0, 1])
-restecg = st.selectbox("Resting ECG (restecg)", [0, 1, 2])
-thalach = st.number_input("Max Heart Rate (thalach)", min_value=60, max_value=220, step=1)
-exang = st.selectbox("Exercise Induced Angina (exang)", [0, 1])
-oldpeak = st.number_input("ST Depression (oldpeak)", min_value=0.0, max_value=10.0, step=0.1)
-slope = st.selectbox("Slope of peak exercise ST (slope)", [0, 1, 2])
-ca = st.selectbox("Number of Major Vessels (ca)", [0, 1, 2, 3])
-thal = st.selectbox("Thalassemia (thal)", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x])
+age = st.number_input("Age (15-100)", min_value=15, max_value=100, step=1)
+sex = st.selectbox("Sex (0=female, 1=male)", [0, 1], format_func=lambda x: "Male" if x == 1 else "Female")
+cp = st.selectbox("Chest Pain Type (0-3)", [0, 1, 2, 3])
+trestbps = st.number_input("Resting Blood Pressure (80-200) ", min_value=80, max_value=200, step=1)
+chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=600, step=1)
+fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl (=false, 1=true)", [0, 1])
+restecg = st.selectbox("Resting ECG (0-2)", [0, 1, 2])
+thalach = st.number_input("Max Heart Rate (60-220)", min_value=60, max_value=220, step=1)
+exang = st.selectbox("Exercise Induced Angina (0=no, 1=yes)", [0, 1])
+oldpeak = st.number_input("ST Depression (0.0-10.0)", min_value=0.0, max_value=10.0, step=0.1)
+slope = st.selectbox("Slope of peak exercise ST (0-2)", [0, 1, 2])
+ca = st.selectbox("Number of Major Vessels (0-3)", [0, 1, 2, 3])
+thal = st.selectbox("Thalassemia (0-2l)", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x])
 
 # Create DataFrame with feature names matching training data
 user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
