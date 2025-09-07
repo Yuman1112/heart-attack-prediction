@@ -21,9 +21,10 @@ sex = st.selectbox("Sex", [0, 1], format_func=lambda x: "Male" if x == 1 else "F
 st.divider()
 
 # -------------------------
-# Section 2: Vitals
+# Section 2: Vitals / Heart Symptoms
 # -------------------------
-st.markdown("### 💓 Vitals")
+st.markdown("### 💓 Vitals / Heart Symptoms")
+cp = st.selectbox("Chest Pain Type (0-3)", [0, 1, 2, 3], help="Type of chest pain")
 trestbps = st.number_input("Resting Blood Pressure (80-200)", min_value=80, max_value=200, step=1, help="Blood pressure at rest (mm Hg)")
 chol = st.number_input("Cholesterol mg/dl (100-600)", min_value=100, max_value=600, step=1, help="Serum cholesterol in mg/dl")
 fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl", [0,1], format_func=lambda x: "No" if x==0 else "Yes", help="Fasting blood sugar greater than 120 mg/dl?")
@@ -45,9 +46,9 @@ st.divider()
 # Section 4: Advanced Inputs
 # -------------------------
 st.markdown("### ⚙️ Advanced Inputs")
-slope = st.selectbox("Slope of peak exercise ST (0-2)", [0,1,2], help="Slope of the peak exercise ST segment")
-ca = st.selectbox("Number of Major Vessels (0-3)", [0,1,2,3], help="Number of major vessels colored by fluoroscopy")
-thal = st.selectbox("Thalassemia", [0,1,2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x], help="Thalassemia type")
+slope = st.selectbox("Slope of peak exercise ST (0-2)", [0, 1, 2], help="Slope of the peak exercise ST segment")
+ca = st.selectbox("Number of Major Vessels (0-3)", [0, 1, 2, 3], help="Number of major vessels colored by fluoroscopy")
+thal = st.selectbox("Thalassemia", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x], help="Thalassemia type")
 
 st.divider()
 
@@ -60,11 +61,15 @@ user_input = [
     int(slope), int(ca), int(thal)
 ]
 
+# -------------------------
+# Build DataFrame
+# -------------------------
 input_df = pd.DataFrame([user_input], columns=[
     'age','sex','cp','trestbps','chol','fbs','restecg',
     'thalach','exang','oldpeak','slope','ca','thal'
 ])
 
+# Scale input
 input_scaled = scaler.transform(input_df)
 
 # -------------------------
