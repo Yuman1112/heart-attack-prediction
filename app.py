@@ -22,7 +22,7 @@ exang = st.selectbox("Exercise Induced Angina (0=no, 1=yes)", [0, 1])
 oldpeak = st.number_input("ST Depression (0.0-10.0)", min_value=0.0, max_value=10.0, step=0.1)
 slope = st.selectbox("Slope of peak exercise ST (0-2)", [0, 1, 2])
 ca = st.selectbox("Number of Major Vessels (0-3)", [0, 1, 2, 3])
-thal = st.selectbox("Thalassemia (0-2l)", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x])
+thal = st.selectbox("Thalassemia", [0, 1, 2], format_func=lambda x: ["Normal", "Fixed defect", "Reversible defect"][x])
 
 # Create DataFrame with feature names matching training data
 user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
@@ -45,4 +45,5 @@ if st.button("Predict Heart Attack Risk"):
         st.error("⚠ High chance of heart attack!")
     else:
         st.success("✅ Low chance of heart attack.")
+
 
